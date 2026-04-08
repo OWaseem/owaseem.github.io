@@ -3,148 +3,949 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Omar Waseem | GitHub Portfolio</title>
+  <title>Omar Waseem | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e1a;
+      --bg-card: #111827;
+      --border: rgba(255,255,255,0.08);
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --gradient: linear-gradient(135deg, #00d4ff, #7c3aed);
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      color: #333;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
-    header {
-      background: #24292e;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    h1 {
-      margin: 0;
-    }
-    .section {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .project {
-      background: white;
-      margin-bottom: 20px;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .project h2 {
-      margin-top: 0;
-    }
-    .skills {
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: rgba(10,14,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
-    .skill {
-      background: #24292e;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 14px;
+
+    .nav-logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
     }
-    footer {
-      background: #333;
-      color: white;
-      padding: 20px;
-      text-align: center;
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
     }
-    a {
-      color: #0366d6;
+
+    .nav-links a {
+      color: var(--text-muted);
       text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-resume {
+      padding: 8px 20px;
+      background: var(--gradient);
+      color: white !important;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .nav-resume:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.12;
+    }
+
+    .orb-1 {
+      width: 700px; height: 700px;
+      background: var(--accent);
+      top: -250px; left: -250px;
+      animation: drift 10s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 600px; height: 600px;
+      background: var(--accent2);
+      bottom: -200px; right: -200px;
+      animation: drift 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(40px, -40px); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    .hero-name {
+      font-size: clamp(2.75rem, 7vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 28px;
+    }
+
+    .hero-summary {
+      max-width: 740px;
+      margin: 0 auto 44px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--gradient);
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(0,212,255,0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px rgba(0,212,255,0.45);
+    }
+
+    .btn-secondary {
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hero-socials {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 52px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .social-link:hover { color: var(--accent); }
+
+    /* SECTIONS */
+    section { padding: 90px 20px; }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-header { margin-bottom: 52px; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    /* EXPERIENCE */
+    .timeline { display: flex; flex-direction: column; gap: 20px; }
+
+    .exp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px 28px 40px;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--gradient);
+    }
+
+    .exp-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      transform: translateX(4px);
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .exp-company { font-weight: 700; font-size: 1.1rem; }
+
+    .exp-role { color: var(--accent); font-size: 0.875rem; font-weight: 500; margin-top: 3px; }
+
+    .exp-date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.05);
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+    .exp-bullets li {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.7;
+    }
+
+    .exp-bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .exp-bullets strong { color: var(--text); font-weight: 600; }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,212,255,0.35);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.35);
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .project-icon { font-size: 1.6rem; }
+
+    .project-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover { color: var(--accent); }
+
+    .project-name { font-size: 1.05rem; font-weight: 700; }
+
+    .project-name a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .project-name a:hover { color: var(--accent); }
+
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .project-stats { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .stat {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 600;
+      background: rgba(0,212,255,0.07);
+      border: 1px solid rgba(0,212,255,0.2);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+
+    .tag {
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .tag-aws   { color: #ff9900; border-color: rgba(255,153,0,0.3);    background: rgba(255,153,0,0.07); }
+    .tag-python{ color: #3b82f6; border-color: rgba(59,130,246,0.3);   background: rgba(59,130,246,0.07); }
+    .tag-java  { color: #f97316; border-color: rgba(249,115,22,0.3);   background: rgba(249,115,22,0.07); }
+    .tag-go    { color: #00acd7; border-color: rgba(0,172,215,0.3);    background: rgba(0,172,215,0.07); }
+    .tag-dotnet{ color: #a855f7; border-color: rgba(168,85,247,0.3);   background: rgba(168,85,247,0.07); }
+    .tag-react { color: #61dafb; border-color: rgba(97,218,251,0.3);   background: rgba(97,218,251,0.07); }
+    .tag-kafka { color: #ef4444; border-color: rgba(239,68,68,0.3);    background: rgba(239,68,68,0.07); }
+    .tag-mongo { color: #4ade80; border-color: rgba(74,222,128,0.3);   background: rgba(74,222,128,0.07); }
+    .tag-c     { color: #94a3b8; border-color: rgba(148,163,184,0.3);  background: rgba(148,163,184,0.07); }
+    .tag-discord{ color: #5865F2; border-color: rgba(88,101,242,0.3);  background: rgba(88,101,242,0.07); }
+    .tag-ai    { color: #f472b6; border-color: rgba(244,114,182,0.3);  background: rgba(244,114,182,0.07); }
+
+    /* SKILLS */
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-category {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .skill-category-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .skill-pill {
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      border-color: var(--accent);
+      background: rgba(0,212,255,0.07);
+      color: var(--accent);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .edu-school { font-weight: 700; font-size: 1.05rem; }
+    .edu-degree { color: var(--text-muted); font-size: 0.875rem; margin-top: 4px; }
+    .edu-date   { color: var(--text-muted); font-size: 0.825rem; }
+
+    .cert-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,153,0,0.25);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      max-width: 500px;
+    }
+
+    .cert-badge { font-size: 2.4rem; }
+    .cert-name  { font-weight: 700; font-size: 1rem; }
+    .cert-issuer{ color: #ff9900; font-size: 0.8rem; font-weight: 500; margin-top: 4px; }
+
+    .leadership-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px 28px 40px;
+      max-width: 800px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .leadership-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #fbbf24, #f97316);
+    }
+
+    .leadership-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .leadership-card p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.75;
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-categories { grid-template-columns: 1fr; }
+      .exp-card { padding: 24px 20px 24px 28px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Omar Waseem</h1>
-    <p>Computer Science @ Rutgers | AI & Cloud Developer</p>
-    <p><a href="mailto:omar.m.waseem@gmail.com" style="color: #58a6ff">omar.m.waseem@gmail.com</a></p>
-    <p><a href="https://www.linkedin.com/in/omarwaseem123" style="color: #58a6ff">LinkedIn</a></p>
-  </header>
 
-  <div class="section">
-    <h2>🔍 Projects</h2>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Omar Waseem</div>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a href="Omar_Waseem_Resume.pdf" download class="nav-resume">Resume ↓</a>
+  </nav>
 
-    <div class="project">
-        <h2><a href="https://github.com/OWaseem/Serverless-AI-Text-Summarization-Pipeline" target="_blank">Serverless AI Text Summarization Pipeline</a></h2>
-        <p>A production-style serverless pipeline that accepts text via a REST API, summarizes it using Amazon Bedrock (Claude Haiku 4.5), tags its sentiment, and stores the results in DynamoDB for fast retrieval — all without managing a single server.</p>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Open to new opportunities
       </div>
-
-      <div class="project">
-        <h2><a href="https://github.com/OWaseem/StockPortfolioTracker" target="_blank">Stock Portfolio Tracker</a></h2>
-        <p>A RESTful API built with ASP.NET Core (.NET 10) that allows users to manage and track their stock portfolio with real-time pricing and gain/loss calculations.</p>
+      <h1 class="hero-name">
+        <span class="gradient-text">Omar Waseem</span>
+      </h1>
+      <p class="hero-title">Data &amp; Cloud Engineer &nbsp;·&nbsp; AI Builder &nbsp;·&nbsp; Eagle Scout</p>
+      <p class="hero-summary">
+        Specializing in scalable ETL pipelines, serverless architectures, and real-time data streaming on AWS, Azure, and Go.
+        Designed a Kafka connector that cut ingestion latency by 40%, built a serverless AI pipeline handling 1,000+ requests
+        with sub-100ms response times, and developed a secure .NET REST API with JWT authentication and live market data integration
+        designed for Azure deployment.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="Omar_Waseem_Resume.pdf" download class="btn-secondary">Download Resume</a>
       </div>
-
-    <div class="project">
-        <h2><a href="https://github.com/OWaseem/MongoDB_Source_Connector" target="_blank">MongoDB Kafka Source Connector</a></h2>
-        <p>Java-based Kafka connector enabling real-time streaming from MongoDB to Apache Kafka. Built for hybrid cloud integration with AWS and Azure environments.</p>
+      <div class="hero-socials">
+        <a href="mailto:omar.m.waseem@gmail.com" class="social-link">✉ omar.m.waseem@gmail.com</a>
+        <a href="https://www.linkedin.com/in/omarwaseem123" target="_blank" class="social-link">in LinkedIn</a>
+        <a href="https://github.com/OWaseem" target="_blank" class="social-link">⌥ GitHub</a>
       </div>
-
-    <div class="project">
-      <h2><a href="https://github.com/Fillds07/PEAKMODE" target="_blank">PEAKMODE – Health Supplement Recommender App</a></h2>
-      <p>React Native + Express.js AI app for personalized supplement recommendations using Bayesian reasoning and informed search. Features secure login, calendar tracking, and dark mode.</p>
     </div>
+  </section>
 
-    <div class="project">
-      <h2><a href="https://github.com/OWaseem/squirdle-discord-bot" target="_blank">Squirdle Discord Bot – Pokémon Wordle Game</a></h2>
-      <p>Developed an interactive Pokémon-themed Wordle bot using Python and Discord API, featuring daily and personal game states. 
-         Implemented JSON-based persistence and optimized command handling for real-time play. 
-         Deployed to Render with automated uptime monitoring via UptimeRobot, ensuring continuous operation and sub-200 ms response time. 
-         Currently exploring long-term scaling and official Discord publication.</p>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Where I've Worked</div>
+        <h2 class="section-title">Experience</h2>
+      </div>
+      <div class="timeline">
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Revature</div>
+              <div class="exp-role">Software Engineer Trainee</div>
+            </div>
+            <span class="exp-date">Feb 2026 – Apr 2026</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Built and deployed batch and distributed ETL pipelines using PySpark, Kafka, Hadoop, and AWS EMR, processing large structured datasets and enabling reliable data availability for downstream analytics.</li>
+            <li>Developed Python and SQL automation scripts for data querying and transformation, streamlining workflows and improving reliability of distributed computing tasks.</li>
+          </ul>
+        </div>
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Xtremeanalytix</div>
+              <div class="exp-role">Cloud Engineering Intern</div>
+            </div>
+            <span class="exp-date">Jun 2024 – Aug 2024</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Designed and deployed five data pipelines across SQL Server, MongoDB, AWS RDS, and Azure SQL in cloud and hybrid environments, accelerating data integration for downstream applications.</li>
+            <li>Created a custom MongoDB source connector in Java enabling real-time data streaming into Apache Kafka, reducing data ingestion latency by <strong>40%</strong> across 3 cloud-hosted applications.</li>
+            <li>Optimized data synchronization across 4+ cloud-native and on-prem systems, improving data accessibility and reducing pipeline errors by <strong>30%</strong>.</li>
+            <li>Maintained cloud infrastructure on AWS and Azure, supporting fault-tolerant ingestion workflows handling millions of records daily.</li>
+          </ul>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="project">
-        <h2><a href="https://github.com/OWaseem/FastTrajectoryReplanning_AI-Agent" target="_blank">Fast Trajectory Replanning AI Agent</a></h2>
-        <p>Developed a fast trajectory replanning AI agent using reinforcement learning and Q-learning. Implemented a custom environment and reward function to train the agent to navigate a maze efficiently.</p>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">What I've Built</div>
+        <h2 class="section-title">Projects</h2>
+      </div>
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">☁️</span>
+            <a href="https://github.com/OWaseem/Serverless-AI-Text-Summarization-Pipeline" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/Serverless-AI-Text-Summarization-Pipeline" target="_blank">Serverless AI Text Summarization Pipeline</a></div>
+          <div class="project-desc">Production-style serverless pipeline using AWS SAM, API Gateway, and Lambda. Integrates Claude Haiku 4.5 via Amazon Bedrock for automated text summarization and sentiment tagging, with results persisted in DynamoDB and all endpoints secured via API key authentication.</div>
+          <div class="project-stats">
+            <span class="stat">61% text reduction</span>
+            <span class="stat">1.89s avg response</span>
+            <span class="stat">1,000+ requests</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-aws">AWS Lambda</span>
+            <span class="tag tag-aws">DynamoDB</span>
+            <span class="tag tag-ai">Bedrock / Claude</span>
+            <span class="tag tag-python">Python</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">📈</span>
+            <a href="https://github.com/OWaseem/StockPortfolioTracker" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/StockPortfolioTracker" target="_blank">Stock Portfolio Tracker API</a></div>
+          <div class="project-desc">Production-style RESTful API in ASP.NET Core (.NET 10) with 16 JWT-secured endpoints across Auth, Portfolio, Logs, and Admin controllers. Integrates Alpha Vantage for live stock pricing with 60-second in-memory caching. Designed for Azure App Service deployment with EF Core migration swap.</div>
+          <div class="project-stats">
+            <span class="stat">16 JWT endpoints</span>
+            <span class="stat">80% fewer API calls</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-dotnet">ASP.NET Core</span>
+            <span class="tag tag-dotnet">C#</span>
+            <span class="tag tag-aws">Azure</span>
+            <span class="tag tag-c">SQLite</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">⚙️</span>
+            <a href="https://github.com/OWaseem" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name">Genv – Cross-Platform Environment Manager</div>
+          <div class="project-desc">Open-source Go CLI tool for declarative cross-platform environment management across macOS, Linux, and WSL2. Implemented a Homebrew service wrapper and WSL2 PATH sanitization logic to prevent Windows binary shadowing. Full CI/CD via GitHub Actions across 13 packages.</div>
+          <div class="project-stats">
+            <span class="stat">13 packages</span>
+            <span class="stat">Full integration tests</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-go">Go</span>
+            <span class="tag tag-c">CLI</span>
+            <span class="tag tag-c">GitHub Actions</span>
+            <span class="tag tag-c">Open Source</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🔄</span>
+            <a href="https://github.com/OWaseem/MongoDB_Source_Connector" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/MongoDB_Source_Connector" target="_blank">MongoDB Kafka Source Connector</a></div>
+          <div class="project-desc">Java-based Kafka connector enabling real-time streaming from MongoDB to Apache Kafka. Built for hybrid cloud integration with AWS and Azure, cutting data ingestion latency by 40% across production cloud-hosted applications.</div>
+          <div class="project-stats">
+            <span class="stat">40% latency reduction</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-java">Java</span>
+            <span class="tag tag-kafka">Apache Kafka</span>
+            <span class="tag tag-mongo">MongoDB</span>
+            <span class="tag tag-aws">AWS / Azure</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🎮</span>
+            <a href="https://github.com/OWaseem/squirdle-discord-bot" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/squirdle-discord-bot" target="_blank">Squirdle – Pokémon Wordle Discord Bot</a></div>
+          <div class="project-desc">Interactive Pokémon-themed Wordle bot supporting daily and personal game states for 100+ active users. JSON-based persistence with optimized command handling. Deployed to Render with UptimeRobot for automated uptime monitoring.</div>
+          <div class="project-stats">
+            <span class="stat">100+ active users</span>
+            <span class="stat">&lt;200ms response</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-python">Python</span>
+            <span class="tag tag-discord">Discord API</span>
+            <span class="tag tag-c">Render</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">💊</span>
+            <a href="https://github.com/Fillds07/PEAKMODE" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/Fillds07/PEAKMODE" target="_blank">PEAKMODE – AI Health Supplement Recommender</a></div>
+          <div class="project-desc">Cross-platform mobile app with JWT authentication, SQLite storage, and dark mode. AI recommendation engine using Bayesian reasoning and informed search, delivering personalized supplement suggestions with confidence scores.</div>
+          <div class="project-stats">
+            <span class="stat">250ms response time</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-react">React Native</span>
+            <span class="tag tag-java">Express.js</span>
+            <span class="tag tag-ai">Bayesian AI</span>
+            <span class="tag tag-c">SQLite</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🧭</span>
+            <a href="https://github.com/OWaseem/FastTrajectoryReplanning_AI-Agent" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/FastTrajectoryReplanning_AI-Agent" target="_blank">Fast Trajectory Replanning AI Agent</a></div>
+          <div class="project-desc">AI agent using reinforcement learning and Q-learning to navigate a custom maze environment. Implements fast replanning with a custom reward function to efficiently recover from obstacles.</div>
+          <div class="project-tags">
+            <span class="tag tag-python">Python</span>
+            <span class="tag tag-ai">Reinforcement Learning</span>
+            <span class="tag tag-ai">Q-Learning</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🧬</span>
+            <a href="https://github.com/OWaseem/Conways_Game_of_Life" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/Conways_Game_of_Life" target="_blank">Conway's Game of Life</a></div>
+          <div class="project-desc">Python simulation using NumPy and Matplotlib to visualize cellular automata. Demonstrates algorithm design and efficient matrix operations for cellular state transitions.</div>
+          <div class="project-tags">
+            <span class="tag tag-python">Python</span>
+            <span class="tag tag-python">NumPy</span>
+            <span class="tag tag-python">Matplotlib</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🗃️</span>
+            <a href="https://github.com/OWaseem/MyLittleMalloc" target="_blank" class="project-link">View on GitHub →</a>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/MyLittleMalloc" target="_blank">My Little Malloc</a></div>
+          <div class="project-desc">Custom malloc/free memory allocator in C with multiple test cases demonstrating systems-level understanding of heap allocation strategies and memory management.</div>
+          <div class="project-tags">
+            <span class="tag tag-c">C</span>
+            <span class="tag tag-c">Systems</span>
+            <span class="tag tag-c">Memory Management</span>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="project">
-      <h2><a href="https://github.com/OWaseem/Conways_Game_of_Life" target="_blank">Conway's Game of Life</a></h2>
-      <p>Python simulation using NumPy and Matplotlib to visualize cellular automata. Demonstrates algorithm design and matrix operations.</p>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">What I Work With</div>
+        <h2 class="section-title">Technical Skills</h2>
+      </div>
+      <div class="skills-categories">
+
+        <div class="skill-category reveal">
+          <div class="skill-category-title">Languages</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">Go</span>
+            <span class="skill-pill">C#</span>
+            <span class="skill-pill">Java</span>
+            <span class="skill-pill">JavaScript</span>
+            <span class="skill-pill">C / C++</span>
+            <span class="skill-pill">HTML / CSS</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-category-title">Cloud &amp; Data</div>
+          <div class="skill-pills">
+            <span class="skill-pill">AWS Lambda</span>
+            <span class="skill-pill">API Gateway</span>
+            <span class="skill-pill">DynamoDB</span>
+            <span class="skill-pill">RDS</span>
+            <span class="skill-pill">CloudWatch</span>
+            <span class="skill-pill">Bedrock</span>
+            <span class="skill-pill">Azure</span>
+            <span class="skill-pill">Docker</span>
+            <span class="skill-pill">Apache Kafka</span>
+            <span class="skill-pill">Apache Hadoop</span>
+            <span class="skill-pill">PySpark</span>
+            <span class="skill-pill">MongoDB</span>
+            <span class="skill-pill">SQL / SQLite</span>
+            <span class="skill-pill">ETL</span>
+          </div>
+        </div>
+
+        <div class="skill-category reveal">
+          <div class="skill-category-title">Frameworks &amp; Tools</div>
+          <div class="skill-pills">
+            <span class="skill-pill">React</span>
+            <span class="skill-pill">React Native</span>
+            <span class="skill-pill">Express.js</span>
+            <span class="skill-pill">ASP.NET Core</span>
+            <span class="skill-pill">Entity Framework</span>
+            <span class="skill-pill">AWS SAM</span>
+            <span class="skill-pill">GitHub Actions</span>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="project">
-      <h2><a href="https://github.com/OWaseem/MyLittleMalloc" target="_blank">My Little Malloc</a></h2>
-      <p>Built a basic malloc/free memory allocator in C with multiple test cases. Emphasizes systems-level understanding of memory management.</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Background</div>
+        <h2 class="section-title">About Me</h2>
+      </div>
+      <div class="about-grid">
+
+        <div class="edu-card reveal">
+          <div>
+            <div class="edu-school">Rutgers University</div>
+            <div class="edu-degree">Bachelor of Science, Computer Science</div>
+          </div>
+          <div class="edu-date">New Brunswick, NJ &nbsp;·&nbsp; May 2025</div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-badge">🏅</div>
+          <div>
+            <div class="cert-name">AWS Certified AI Practitioner</div>
+            <div class="cert-issuer">Amazon Web Services · 2026</div>
+          </div>
+        </div>
+
+        <div class="leadership-card reveal">
+          <h3>Eagle Scout &mdash; Boy Scouts of America</h3>
+          <p>Led and executed multiple community infrastructure projects over 5+ years, including trail restoration, road repair, and manufacturing 100+ face shields for frontline paramedics during COVID-19. Culminating in the Eagle Scout rank &mdash; earned by fewer than 6% of Scouts.</p>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-  </div>
-
-  <div class="section">
-    <h2>💼 Skills</h2>
-    <div class="skills">
-      <div class="skill">Java</div>
-      <div class="skill">Python</div>
-      <div class="skill">C/C++</div>
-      <div class="skill">React Native</div>
-      <div class="skill">Express.js</div>
-      <div class="skill">Node.js</div>
-      <div class="skill">MongoDB</div>
-      <div class="skill">Kafka</div>
-      <div class="skill">AWS</div>
-      <div class="skill">SQLite</div>
-      <div class="skill">Render</div>
-      <div class="skill">UptimeRobot</div>
-      <div class="skill">GitHub</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>👋 About Me</h2>
-    <p>I’m a recent Computer Science graduate student at Rutgers University with a passion for building real-world AI and cloud-based applications. I enjoy working across the stack—from mobile UI to backend systems—and using AI to solve meaningful problems. Let’s connect!</p>
-  </div>
-
+  <!-- FOOTER -->
   <footer>
-    &copy; 2025 Omar Waseem | Built with ❤️ and GitHub Pages
+    <p style="margin-bottom: 10px;">
+      <a href="mailto:omar.m.waseem@gmail.com">omar.m.waseem@gmail.com</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/omarwaseem123" target="_blank">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/OWaseem" target="_blank">GitHub</a>
+    </p>
+    <p style="color: #475569;">&copy; 2025 Omar Waseem &nbsp;·&nbsp; Built with GitHub Pages</p>
   </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) el.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
 </body>
 </html>
