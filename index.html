@@ -973,7 +973,7 @@
       <div class="contrib-wrapper reveal">
         <div class="contrib-total" id="contrib-count">—</div>
         <div class="contrib-total-label">total contributions</div>
-        <div class="contrib-months-label">March – April 2026</div>
+        <div class="contrib-months-label">Past 12 Months</div>
         <canvas id="contrib-canvas"></canvas>
       </div>
     </div>
@@ -998,11 +998,9 @@
         const total = Object.values(data.total).reduce((a, b) => a + b, 0);
         document.getElementById('contrib-count').textContent = total.toLocaleString();
 
-        // Filter for March (month 2) and April (month 3) 2026
-        const focused = data.contributions.filter(d => {
-          const date = new Date(d.date);
-          return date.getFullYear() === 2026 && (date.getMonth() === 2 || date.getMonth() === 3);
-        });
+        // Show last 52 weeks
+        const all = data.contributions;
+        const focused = all.slice(-364);
 
         renderChart(focused);
       } catch (e) {
