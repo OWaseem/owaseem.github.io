@@ -1,16 +1,17 @@
-# Omar Waseem — Portfolio
+# Hi, I'm Omar Waseem
 
-Personal portfolio site for Omar Waseem, a Data & Cloud Engineer with experience in scalable ETL pipelines, serverless architectures, and real-time data streaming on AWS and Azure.
+I'm a Data & Cloud Engineer focused on building scalable ETL pipelines, serverless architectures, and real-time data streaming systems on AWS and Azure. This is my portfolio site.
 
 Live site: [owaseem.github.io](https://owaseem.github.io)
 
-## About
+## About Me
 
-- **Education:** B.S. Computer Science, Rutgers University (May 2025)
-- **Certification:** AWS Certified AI Practitioner (2026)
-- **Contact:** omar.m.waseem@gmail.com
-- **LinkedIn:** [linkedin.com/in/omarwaseem123](https://www.linkedin.com/in/omarwaseem123)
-- **GitHub:** [github.com/OWaseem](https://github.com/OWaseem)
+- B.S. Computer Science, Rutgers University (May 2025)
+- AWS Certified AI Practitioner (2026)
+- Eagle Scout
+- Open to new opportunities
+- Reach me at omar.m.waseem@gmail.com
+- [LinkedIn](https://www.linkedin.com/in/omarwaseem123) · [GitHub](https://github.com/OWaseem)
 
 ## Featured Projects
 
