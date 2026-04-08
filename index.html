@@ -590,15 +590,7 @@
       margin-bottom: 28px;
     }
 
-    .contrib-months-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    #contrib-canvas {
+#contrib-canvas {
       max-width: 100%;
     }
 
@@ -972,8 +964,7 @@
       </div>
       <div class="contrib-wrapper reveal">
         <div class="contrib-total" id="contrib-count">—</div>
-        <div class="contrib-total-label">total contributions</div>
-        <div class="contrib-months-label">Past 12 Months</div>
+        <div class="contrib-total-label" id="contrib-year-label">contributions in 2026</div>
         <canvas id="contrib-canvas"></canvas>
       </div>
     </div>
@@ -991,18 +982,14 @@
     // GitHub Contributions Chart
     async function loadContributions() {
       try {
-        const res = await fetch('https://github-contributions-api.jogruber.de/v4/OWaseem?y=last');
+        const res = await fetch('https://github-contributions-api.jogruber.de/v4/OWaseem?y=2026');
         const data = await res.json();
 
-        // Total contributions across all years
-        const total = Object.values(data.total).reduce((a, b) => a + b, 0);
+        const total = data.total[2026] || 0;
         document.getElementById('contrib-count').textContent = total.toLocaleString();
+        document.getElementById('contrib-year-label').textContent = `contributions in 2026`;
 
-        // Show last 52 weeks
-        const all = data.contributions;
-        const focused = all.slice(-364);
-
-        renderChart(focused);
+        renderChart(data.contributions);
       } catch (e) {
         document.getElementById('contrib-count').textContent = '—';
       }
@@ -1010,19 +997,21 @@
 
     function renderChart(days) {
       const canvas = document.getElementById('contrib-canvas');
-      const cellSize = 14;
+      const cellSize = 11;
       const gap = 3;
       const step = cellSize + gap;
+      const paddingLeft = 28;
+      const paddingTop = 22;
 
-      // Group days into weeks (columns)
+      // GitHub green color palette
+      const colors = ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'];
+
+      // Group into weeks starting from Sunday
       const weeks = [];
       let week = [];
       days.forEach((d, i) => {
-        const dow = new Date(d.date).getDay(); // 0=Sun
-        if (i === 0) {
-          // Pad the first week
-          for (let p = 0; p < dow; p++) week.push(null);
-        }
+        const dow = new Date(d.date).getDay();
+        if (i === 0) for (let p = 0; p < dow; p++) week.push(null);
         week.push(d);
         if (week.length === 7) { weeks.push(week); week = []; }
       });
@@ -1031,21 +1020,42 @@
         weeks.push(week);
       }
 
-      canvas.width = weeks.length * step + 1;
-      canvas.height = 7 * step + 1;
+      canvas.width = paddingLeft + weeks.length * step;
+      canvas.height = paddingTop + 7 * step;
       const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const colors = ['#1a2035', '#0a4a6e', '#0080b3', '#00aee0', '#00d4ff'];
+      // Month labels
+      ctx.fillStyle = '#8b949e';
+      ctx.font = '10px Inter, sans-serif';
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      let lastMonth = -1;
+      weeks.forEach((wk, col) => {
+        const firstDay = wk.find(d => d !== null);
+        if (!firstDay) return;
+        const month = new Date(firstDay.date).getMonth();
+        if (month !== lastMonth) {
+          ctx.fillText(months[month], paddingLeft + col * step, 12);
+          lastMonth = month;
+        }
+      });
 
+      // Day labels (Mon, Wed, Fri)
+      ctx.fillStyle = '#8b949e';
+      ctx.font = '10px Inter, sans-serif';
+      [['Mon', 1], ['Wed', 3], ['Fri', 5]].forEach(([label, row]) => {
+        ctx.fillText(label, 0, paddingTop + row * step + cellSize - 1);
+      });
+
+      // Cells
       weeks.forEach((wk, col) => {
         wk.forEach((d, row) => {
-          if (!d) return;
-          const x = col * step;
-          const y = row * step;
-          const level = d.level ?? Math.min(4, d.count > 0 ? 1 + Math.floor(d.count / 3) : 0);
+          const x = paddingLeft + col * step;
+          const y = paddingTop + row * step;
+          const level = d ? (d.level ?? Math.min(4, d.count > 0 ? 1 + Math.floor(d.count / 3) : 0)) : 0;
           ctx.fillStyle = colors[Math.min(level, 4)];
           ctx.beginPath();
-          ctx.roundRect(x, y, cellSize, cellSize, 3);
+          ctx.roundRect(x, y, cellSize, cellSize, 2);
           ctx.fill();
         });
       });
