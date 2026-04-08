@@ -574,10 +574,32 @@
       text-align: center;
     }
 
-    .contrib-wrapper img {
-      width: 100%;
-      max-width: 900px;
-      border-radius: 8px;
+    .contrib-total {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .contrib-total-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .contrib-months-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    #contrib-canvas {
+      max-width: 100%;
     }
 
     /* RESPONSIVE */
@@ -949,7 +971,10 @@
         <h2 class="section-title">GitHub Contributions</h2>
       </div>
       <div class="contrib-wrapper reveal">
-        <img src="https://ghchart.rshah.org/00d4ff/OWaseem" alt="Omar Waseem's GitHub contribution chart" />
+        <div class="contrib-total" id="contrib-count">—</div>
+        <div class="contrib-total-label">total contributions</div>
+        <div class="contrib-months-label">March – April 2026</div>
+        <canvas id="contrib-canvas"></canvas>
       </div>
     </div>
   </section>
@@ -962,6 +987,73 @@
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // GitHub Contributions Chart
+    async function loadContributions() {
+      try {
+        const res = await fetch('https://github-contributions-api.jogruber.de/v4/OWaseem?y=last');
+        const data = await res.json();
+
+        // Total contributions across all years
+        const total = Object.values(data.total).reduce((a, b) => a + b, 0);
+        document.getElementById('contrib-count').textContent = total.toLocaleString();
+
+        // Filter for March (month 2) and April (month 3) 2026
+        const focused = data.contributions.filter(d => {
+          const date = new Date(d.date);
+          return date.getFullYear() === 2026 && (date.getMonth() === 2 || date.getMonth() === 3);
+        });
+
+        renderChart(focused);
+      } catch (e) {
+        document.getElementById('contrib-count').textContent = '—';
+      }
+    }
+
+    function renderChart(days) {
+      const canvas = document.getElementById('contrib-canvas');
+      const cellSize = 14;
+      const gap = 3;
+      const step = cellSize + gap;
+
+      // Group days into weeks (columns)
+      const weeks = [];
+      let week = [];
+      days.forEach((d, i) => {
+        const dow = new Date(d.date).getDay(); // 0=Sun
+        if (i === 0) {
+          // Pad the first week
+          for (let p = 0; p < dow; p++) week.push(null);
+        }
+        week.push(d);
+        if (week.length === 7) { weeks.push(week); week = []; }
+      });
+      if (week.length) {
+        while (week.length < 7) week.push(null);
+        weeks.push(week);
+      }
+
+      canvas.width = weeks.length * step + 1;
+      canvas.height = 7 * step + 1;
+      const ctx = canvas.getContext('2d');
+
+      const colors = ['#1a2035', '#0a4a6e', '#0080b3', '#00aee0', '#00d4ff'];
+
+      weeks.forEach((wk, col) => {
+        wk.forEach((d, row) => {
+          if (!d) return;
+          const x = col * step;
+          const y = row * step;
+          const level = d.level ?? Math.min(4, d.count > 0 ? 1 + Math.floor(d.count / 3) : 0);
+          ctx.fillStyle = colors[Math.min(level, 4)];
+          ctx.beginPath();
+          ctx.roundRect(x, y, cellSize, cellSize, 3);
+          ctx.fill();
+        });
+      });
+    }
+
+    loadContributions();
   </script>
 
 </body>
