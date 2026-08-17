@@ -37,9 +37,9 @@
       <h1 class="hero-name">
         <span class="gradient-text">Omar Waseem</span>
       </h1>
-      <p class="hero-title">Data &amp; Cloud Engineer &nbsp;·&nbsp; AI Builder &nbsp;·&nbsp; Eagle Scout</p>
+      <p class="hero-title">AI Engineer &nbsp;·&nbsp; Data Engineering Foundation &nbsp;·&nbsp; Eagle Scout</p>
       <p class="hero-summary">
-        I'm a software engineer who gravitates toward the data and cloud side of things, including building pipelines, APIs, and backend systems that actually hold up under pressure. I like working close to the infrastructure and enjoy the problem-solving that comes with it. Outside of work, I'm an Eagle Scout and still carry that build-it-right mentality into everything I do. Feel free to check out my projects, browse my experience, or grab my resume below.
+        I'm an AI Engineer with a data engineering foundation. I started out at Revature building distributed ETL pipelines on Spark and Hadoop, then moved into an AI Engineering role at Cognizant designing multi-agent LLM workflows and forecasting models. I like grounding AI systems in solid data fundamentals: retrieval-augmented reasoning, agent workflows with real guardrails and human-in-the-loop gates, and pipelines that hold up under pressure. Outside of work, I'm an Eagle Scout and still carry that build-it-right mentality into everything I do. Feel free to check out my projects, browse my experience, or grab my resume below.
       </p>
       <div class="hero-actions">
         <a href="#projects" class="btn-primary">View Projects</a>
@@ -65,14 +65,28 @@
         <div class="exp-card reveal">
           <div class="exp-header">
             <div>
-              <div class="exp-company">Revature</div>
-              <div class="exp-role">Software Engineer Trainee</div>
+              <div class="exp-company">Cognizant</div>
+              <div class="exp-role">AI Engineer Intern <span style="color:#64748b; font-weight:400;">(via Revature placement)</span></div>
             </div>
-            <span class="exp-date">Feb 2026 – Apr 2026</span>
+            <span class="exp-date">May 2026 – Aug 2026</span>
           </div>
           <ul class="exp-bullets">
-            <li>Built and deployed batch and distributed ETL pipelines using PySpark, Kafka, Hadoop, and AWS EMR, processing large structured datasets and enabling reliable data availability for downstream analytics.</li>
-            <li>Developed Python and SQL automation scripts for data querying and transformation, streamlining workflows and improving reliability of distributed computing tasks.</li>
+            <li>Built a pooled LSTM network (TensorFlow/Keras) with learned per-stock embeddings to forecast next-day returns across ~100 large-cap equities, benchmarking against baseline models and validating results with a capacity-ablation study.</li>
+            <li>Designed a multi-agent LangGraph/LangChain workflow automating vendor onboarding and risk review — document validation, RAG-grounded policy retrieval, risk scoring, and a human-approval gate — with a Streamlit interface and full scenario test coverage.</li>
+          </ul>
+        </div>
+
+        <div class="exp-card reveal">
+          <div class="exp-header">
+            <div>
+              <div class="exp-company">Revature</div>
+              <div class="exp-role">Data Engineer <span style="color:#64748b; font-weight:400;">(Pre-Employment Program)</span></div>
+            </div>
+            <span class="exp-date">Feb 2026 – May 2026</span>
+          </div>
+          <ul class="exp-bullets">
+            <li>Completed a 9-week intensive data engineering track (SQL, Git, Python, Hadoop, Hive, PySpark) spanning 58 coding labs, including distributed ingestion and transformation workflows across HDFS, Hive, and Spark SQL on AWS EMR clusters.</li>
+            <li>Built a Python ETL pipeline extracting flight, hotel, and live weather data, validating and cleaning it, and loading it into PostgreSQL staging tables, paired with a Flask dashboard for pipeline health and reporting metrics.</li>
           </ul>
         </div>
 
@@ -121,6 +135,60 @@
         <h2 class="section-title">Projects</h2>
       </div>
       <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🛂</span>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/Multi-Agent-Vendor-Onboarding-Risk-Review" target="_blank">Multi-Agent Vendor Onboarding & Risk Review</a></div>
+          <div class="project-desc">LangGraph + LangChain multi-agent workflow that runs a vendor request through document/completeness validation, RAG-grounded risk &amp; compliance review, and a human-approval gate before producing a grounded onboarding decision. Model-agnostic LLM client (Bedrock → OpenAI → Anthropic → Gemini) with deterministic template fallback, a Chroma vector store, and a Streamlit demo UI.</div>
+          <div class="project-stats">
+            <span class="stat">3-agent workflow</span>
+            <span class="stat">5 required test scenarios</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-ai">LangGraph</span>
+            <span class="tag tag-ai">LangChain</span>
+            <span class="tag tag-ai">RAG</span>
+            <span class="tag tag-python">Python</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🧠</span>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/AI_project_1" target="_blank">Pooled LSTM Multi-Stock Return Forecaster</a></div>
+          <div class="project-desc">Pooled LSTM network (TensorFlow/Keras) with learned per-stock embeddings predicting next-day returns across ~100 large-cap US equities from live Yahoo Finance data. Benchmarked against baseline models with an honest read on real-world predictive value, backed by a capacity-ablation study confirming the performance ceiling is data-driven, not architecture-driven. Ships with a Flask web app for live predictions.</div>
+          <div class="project-stats">
+            <span class="stat">~100 stocks modeled</span>
+            <span class="stat">Capacity-ablation validated</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-ai">TensorFlow / Keras</span>
+            <span class="tag tag-python">Python</span>
+            <span class="tag tag-ai">LSTM</span>
+            <span class="tag tag-c">Flask</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">🛫</span>
+          </div>
+          <div class="project-name"><a href="https://github.com/OWaseem/Revature_ETL_Data_Pipeline" target="_blank">Revature ETL Data Pipeline</a></div>
+          <div class="project-desc">Transportation data pipeline that extracts flight, hotel, and live weather data across 98 cities, validates and cleans it against config-driven rules, and loads it into PostgreSQL staging tables with FK-based reject handling. Paired with a Flask + Chart.js dashboard for pipeline stats, a city-level reporting view, and a searchable rejects table.</div>
+          <div class="project-stats">
+            <span class="stat">87% test coverage</span>
+            <span class="stat">98 cities tracked</span>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-python">Python</span>
+            <span class="tag tag-postgres">PostgreSQL</span>
+            <span class="tag tag-c">Flask</span>
+            <span class="tag tag-c">pandas</span>
+          </div>
+        </div>
 
         <div class="project-card reveal">
           <div class="project-top">
